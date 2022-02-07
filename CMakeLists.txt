@@ -14,6 +14,9 @@ add_compile_definitions(OSAI_AZURE_RTOS)
 
 add_link_options(-specs=nano.specs -specs=nosys.specs)
 
+file(GLOB_RECURSE firmware_sources ${CMAKE_CURRENT_SOURCE_DIR}/Sources/*.c)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Includes)
+
 # Create executable
 add_executable (${PROJECT_NAME}
     mt3620_m4_software/MT3620_M4_Sample_Code/OS_HAL/src/os_hal_adc.c
@@ -30,7 +33,8 @@ add_executable (${PROJECT_NAME}
     mt3620_m4_software/MT3620_M4_Sample_Code/OS_HAL/src/os_hal_wdt.c
     ./demo_threadx/demo_threadx.c 
     ./demo_threadx/rtcoremain.c
-    ./demo_threadx/tx_initialize_low_level.S)
+    ./demo_threadx/tx_initialize_low_level.S
+    ${firmware_sources} "Includes/Custom.h"    )
 
 target_include_directories(${PROJECT_NAME} PUBLIC mt3620_m4_software/MT3620_M4_Sample_Code/OS_HAL/inc)
 target_include_directories(${PROJECT_NAME} PUBLIC
@@ -46,7 +50,11 @@ set(THREADX_ARCH "cortex_m4")
 set(THREADX_TOOLCHAIN "gnu")
 add_subdirectory(threadx)
 
-target_link_libraries(${PROJECT_NAME} MT3620_M4_Driver azrtos::threadx)
+#target_compile_options(${PROJECT_NAME} PUBLIC -specs=nosys.specs -mfloat-abi=hard -mfpu=fpv4-sp-d16 )
+target_link_libraries(${PROJECT_NAME} PUBLIC MT3620_M4_Driver azrtos::threadx ${CMAKE_CURRENT_SOURCE_DIR}/lib_arm/libModel.a m)
+#SET(CMAKE_EXE_LINKER_FLAGS "-Wl,--gc-sections -Wl,-T ${LINKER_SCRIPT}" CACHE STRING "" FORCE)
+
+#target_link_libraries(${PROJECT_NAME} MT3620_M4_Driver azrtos::threadx  ${CMAKE_CURRENT_SOURCE_DIR}/lib_arm/libm.a)
 
 set_target_properties (${PROJECT_NAME} PROPERTIES LINK_DEPENDS ${PROJECT_SOURCE_DIR}/linker.ld)
 

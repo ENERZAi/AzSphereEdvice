@@ -59,17 +59,28 @@ void _putchar(char character)
         mtk_os_hal_uart_put_char(uart_port_num, '\r');
 }
 
+static void EnableFPU(void)
+{
+    // Cortex-M4 Revision r0p0 Technical Reference Manual
+    // S 7.3.1, Enabling the FPU
 
+    volatile uint32_t* cpacr = (volatile uint32_t*)0xE000ED88;
+    // [23:20] = 0xF - enable CP10 and CP11
+    *cpacr |= 0xF << 20;
+}
 
 _Noreturn void RTCoreMain(void)
 {
 
     // Init Vector Table
     NVIC_SetupVectorTable();
+    EnableFPU();
 
     // Init UART
     mtk_os_hal_uart_ctlr_init(uart_port_num);
     printf("UART Initialized (port_num=%d)\n", uart_port_num);
+    InitBMI160();
+    InitLED();
 
     main();
 
