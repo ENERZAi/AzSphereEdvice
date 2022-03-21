@@ -24,7 +24,7 @@ Please go to this page and follow the instructions to setup the Azure sphere SDK
 
 > Note: You need Azure Sphere SDK version >= 20.07 to build and run the sample.
 
-## How to connect BMI160 Accelerometer/Gyroscope to Azure sphere
+## How to connect BMI160 IMU sensor to Azure sphere
 BMI160 SCL <-> Azure Sphere SCL
 BMI160 SDA <-> Azure Sphere SDA
 BMI160 Vin (+) <-> Azure Sphere 5v
