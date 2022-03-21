@@ -38,8 +38,6 @@ You may need to update the OS by using if you have an older device.
 azsphere device recover
 ```
 
-
-
 ## Set up hardware to display output
 
 To prepare your hardware to display output from the sample:
@@ -50,7 +48,11 @@ To prepare your hardware to display output from the sample:
 
 ## Build and run the sample
 
-See tutorial to learn how to build and deploy this sample: [Tutorial: Build a real-time capable application](https://docs.microsoft.com/azure-sphere/install/qs-real-time-application?tabs=windows&pivots=visual-studio)
+1. Under the AzSphereEdvice repository, create lib_arm folder
+2. Place libModel.a file downloaded from edvice website under AzSphereEdvice/lib_arm directory
+3. Place Edvice.h file downloaded from edvice website under AzSphereEdvice/Includes directory (If it already exists, replace it)
+4. Open Visual Studio with Azure Sphere SDK installed and run CMake
+5. Build and run the example on your Azure Sphere device
 
 > Note: You need Azure Sphere SDK version >= 20.07 to build and run the sample.
 
